@@ -1,4 +1,5 @@
 from flask import Flask, render_template
+import RPI.GPIO as GPIO
 
 app = Flask(__name__)
 
@@ -10,3 +11,4 @@ def hello_world():
 
 if __name__ == '__main__':
     app.run()
+
