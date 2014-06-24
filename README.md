@@ -1,7 +1,6 @@
 # Linuxへの変更点
 
-/etc/snmp/snmpd.conf  
-```  
+### /etc/snmp/snmpd.conf  
     #       sec.name  source          community
     com2sec notConfigUser  default       public
 
@@ -15,10 +14,8 @@
 
     #       group          context sec.model sec.level prefix read   write  notif
     access  notConfigGroup ""      any       noauth    exact  systemview none none
-```
 
-/etc/snmp/snmptrapd.conf  
-```
+### /etc/snmp/snmptrapd.conf  
     #### When Recieve Trap
     #default : write to syslog
     traphandle default /usr/bin/logger
@@ -32,20 +29,16 @@
     #authCommunity     log   "community" 192.168.1.0/24
     authCommunity     log,execute,net   public
     disableAuthorization no
-```
 
-/etc/default/snmpd  
-```
+### /etc/default/snmpd  
     $ diff snmpd snmpd.org
     16c16
     < TRAPDRUN=yes
     ---
     > TRAPDRUN=no
-```
 
-/etc/rc.local  
+### /etc/rc.local  
 最下段の行のみを追加  
-```
     # By default this script does nothing.
 
     # Print the IP address
@@ -55,4 +48,3 @@
     fi
 
     /opt/aquestalkpi/AquesTalkPi "起動しました、IPアドレス ${_IP}"  | aplay
-```
