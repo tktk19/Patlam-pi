@@ -39,12 +39,6 @@ def init_db():
             db.cursor().executescript(f.read())
         db.commit()
 
-@app.teardown_appcontext
-def close_db(error):
-    """Closes the database again at the end of the request."""
-    if hasattr(g, 'sqlite_db'):
-        g.sqlite_db.close()
-
 @app.route('/')
 def show_settings():
     db = get_db()
@@ -73,5 +67,5 @@ def logout():
     return redirect(url_for('show_settings'))
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0')
 
