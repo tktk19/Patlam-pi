@@ -48,3 +48,9 @@
     fi
 
     /opt/aquestalkpi/AquesTalkPi "起動しました、IPアドレス ${_IP}"  | aplay
+
+# アプリケーションのデーモン化  
+要 gunicorn
+
+    # cd /prj/patlam-pi
+    # sudo gunicorn -D -w 4 -b 0.0.0.0:80 Patlam-pi:app
