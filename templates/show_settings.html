@@ -1,9 +1,0 @@
-{% extends "layout.html" %}
-{% block body %}
-  {% if session.logged_in %}
-    {% for setting in settings %}
-      <li><h2>{{ settings.key }}</h2>{{ settings.val|safe }}
-    {% endfor %}
-    <input type=submit value=更新>
-  {% endif %}
-{% endblock %}

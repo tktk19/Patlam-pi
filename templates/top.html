@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+    {% block body %}
+    {% if session.logged_in %}
+        {% for setting in settings %}
+            <li><h2>{{ setting.key }}</h2>{{ setting.val|safe }}
+        {% endfor %}
+        <input type=submit value=更新>
+    {% endif %}
+    <h3>現在のステータス</h3>
+    {% for status in statuses %}
+        <li><h2>{{ status.key }}</h2>{{ status.val|safe }}
+    {% endfor %}
+    {% endblock %}

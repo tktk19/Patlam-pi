@@ -1,6 +1,8 @@
+# -*- coding: utf-8 -*-
+
 import os
+import subprocess
 import sqlite3
-#import RPI.GPIO as GPIO
 
 from flask import Flask, request, session, g, redirect, url_for, abort, \
     render_template, flash
@@ -10,7 +12,8 @@ app.config.from_object(__name__)
 
 # Load default config and override config from an environment variable
 app.config.update(dict(
-    DATABASE=os.path.join(app.root_path, 'Patlam-pi.db'),
+    SOUNDDATA=os.path.join(app.root_path, 'sound'),
+    DATABASE=os.path.join(app.root_path, 'patlam_pi.db'),
     DEBUG=True,
     SECRET_KEY='De45uw4wuhHUERW232mksdohHUHEFIUI',
     USERNAME='pi',
@@ -39,12 +42,31 @@ def init_db():
             db.cursor().executescript(f.read())
         db.commit()
 
+def __system(arg0, arg1):
+    p = subprocess.Popen([arg0, arg1],
+                         stdin=subprocess.PIPE,
+                         stdout=subprocess.PIPE,
+                         stderr=subprocess.PIPE,
+                         shell=False)
+
+    return p.stdout.readlines()
+
+def __get_system_stat():
+    statuses = dict()
+    statuses['IP'] = __system("hostname" , "-I")
+    statuses['Uptime'] = __system("w", " | head -1")
+    #statuses['Snmptrap'] = __system("grep 'snmptrapd' /var/log/daemon.log", " | tail -5")
+
+    return statuses
+
 @app.route('/')
-def show_settings():
+def top():
     db = get_db()
     cur = db.execute('select * from settings order by id asc')
     settings = cur.fetchall()
-    return render_template("show_settings.html", settings=settings)
+    statuses = __get_system_stat()
+
+    return render_template("top.html", settings=settings, statuses=statuses)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -57,15 +79,15 @@ def login():
         else:
             session['logged_in'] = True
             flash('You were logged in')
-            return redirect(url_for('show_settings'))
+            return redirect(url_for('top'))
     return render_template('login.html', error=error)
 
 @app.route('/logout')
 def logout():
     session.pop('logged_in', None)
     flash('You were logged out')
-    return redirect(url_for('show_settings'))
+    return redirect(url_for('top'))
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
-
+    # amixer -c 0 sset 'PCM' 50%
