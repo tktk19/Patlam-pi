@@ -6,6 +6,7 @@ import sqlite3
 
 from flask import Flask, request, session, g, redirect, url_for, abort, \
     render_template, flash
+from pprint import pprint
 
 app = Flask(__name__)
 app.config.from_object(__name__)
@@ -42,20 +43,23 @@ def init_db():
             db.cursor().executescript(f.read())
         db.commit()
 
-def __system(arg0, arg1):
-    p = subprocess.Popen([arg0, arg1],
+def __system(cmd):
+    p = subprocess.Popen(cmd,
                          stdin=subprocess.PIPE,
                          stdout=subprocess.PIPE,
                          stderr=subprocess.PIPE,
-                         shell=False)
-
-    return p.stdout.readlines()
+                         shell=True)
+    stdout_data, stderr_data = p.communicate()
+    if p.returncode == 0:
+        return stdout_data
+    else:
+        return "Error Occurred"
 
 def __get_system_stat():
     statuses = dict()
-    statuses['IP'] = __system("hostname" , "-I")
-    statuses['Uptime'] = __system("w", " | head -1")
-    #statuses['Snmptrap'] = __system("grep 'snmptrapd' /var/log/daemon.log", " | tail -5")
+    statuses['IP'] = __system("hostname -I")
+    statuses['Uptime'] = __system("w | head -1")
+    statuses['Snmptrap'] = __system("grep 'snmptrapd' /var/log/daemon.log | tail -5")
 
     return statuses
 
