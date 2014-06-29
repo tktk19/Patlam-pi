@@ -14,6 +14,7 @@ app.config.from_object(__name__)
 # Load default config and override config from an environment variable
 app.config.update(dict(
     SOUNDDATA=os.path.join(app.root_path, 'sound'),
+    LOGFILE=os.path.join(app.root_path, 'log', 'snmptrapd_receive.log'),
     DATABASE=os.path.join(app.root_path, 'patlam_pi.db'),
     DEBUG=True,
     SECRET_KEY='De45uw4wuhHUERW232mksdohHUHEFIUI',
@@ -26,6 +27,7 @@ def connect_db():
     """Connects to the specific database."""
     rv = sqlite3.connect(app.config['DATABASE'])
     rv.row_factory = sqlite3.Row
+
     return rv
 
 def get_db():
@@ -66,7 +68,7 @@ def __get_system_stat():
 @app.route('/')
 def top():
     db = get_db()
-    cur = db.execute('select * from settings order by id asc')
+    cur = db.execute('select * from settings')
     settings = cur.fetchall()
     statuses = __get_system_stat()
 

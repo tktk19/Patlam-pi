@@ -1,18 +1,27 @@
 {% extends "layout.html" %}
 {% block body %}
-    <h2>設定変更</h2>
+    <h2>現在の設定</h2><span>※設定変更するにはログインしてください</span>
     <table>
         {% for setting in settings %}
-            <tr><th>{{ setting.key }}</th><td>{{ setting.val|safe }}</td></tr>
+            <tr>
+                <th>{{ setting.key }}</th>
+                <td>
+                    {% if setting.val == '' %}
+                        -
+                    {% else %}
+                        {{ setting.val|safe }}
+                    {% endif %}
+                </td>
+            </tr>
         {% endfor %}
     </table>
 
     {% if session.logged_in %}
         <input type=submit value=更新>
     {% else %}
-        <h4>※設定変更するにはログインしてください</h4>
     {% endif %}
 
+    <br>
     <h3>ステータス</h3>
     <table>
         {% for key, val in statuses.iteritems() %}

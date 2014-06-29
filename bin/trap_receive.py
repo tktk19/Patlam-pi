@@ -6,8 +6,13 @@ import RPi.GPIO as GPIO
 import time
 
 # import main flask project
-sys.path.append(os.getcwd())
+my_path = os.path.dirname(os.path.abspath(__file__))
+main_path = os.path.normpath(os.path.join(my_path, '../'))
+sys.path.append(main_path)
 import patlam_pi
+
+import logging
+import logging.handlers
 
 u"""
 snmp_trap 受信時のアラートを実施
@@ -22,12 +27,26 @@ class Alart():
         GPIO.setup(23, GPIO.OUT)
         GPIO.setup(24, GPIO.OUT)
 
+        self.logger = logging.getLogger()
+        self.logger.setLevel(logging.DEBUG)
+        __formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+        __handler = logging.handlers.RotatingFileHandler(
+            filename=patlam_pi.app.config['LOGFILE'],
+            maxBytes=102400,
+            backupCount=10,
+        )
+        __handler.setFormatter(__formatter)
+        self.logger.addHandler(__handler)
+
     def __sound(self):
         sound_file = os.path.join(patlam_pi.app.config['SOUNDDATA'], "ALARM.WAV")
+        self.log('SoundPlay Start : ' + sound_file)
         cmd = "/usr/bin/aplay " + sound_file + " &"
         os.system(cmd)
+        self.log('SoundPlay End')
 
     def __light(self):
+        self.log('LED blink 5 Times Start')
         i = 0
         while i < 5:
             GPIO.output(23, True)
@@ -38,10 +57,16 @@ class Alart():
             time.sleep(0.5)
             i+=1
 
+        self.log('LED blink 5 Times Stop')
+
     def fire(self):
         self.__sound()
         self.__light()
 
+    def log(self, string):
+        self.logger.debug(string)
+
 if __name__ == '__main__' :
     alart = Alart()
+    alart.log(' '.join(sys.argv))
     alart.fire()
