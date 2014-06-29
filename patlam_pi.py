@@ -4,9 +4,8 @@ import os
 import subprocess
 import sqlite3
 
-from flask import Flask, request, session, g, redirect, url_for, abort, \
+from flask import Flask, request, session, g, redirect, url_for, \
     render_template, flash
-from pprint import pprint
 
 app = Flask(__name__)
 app.config.from_object(__name__)
@@ -61,7 +60,7 @@ def __get_system_stat():
     statuses = dict()
     statuses['IP'] = __system("hostname -I")
     statuses['Uptime'] = __system("w | head -1")
-    statuses['Snmptrap'] = __system("grep 'snmptrapd' /var/log/daemon.log | tail -5")
+    statuses['Snmptrap'] = __system("grep 'snmptrapd' /var/log/daemon.log | tail -5").replace('\n','<br>')
 
     return statuses
 

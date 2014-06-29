@@ -25,7 +25,16 @@
     <h3>ステータス</h3>
     <table>
         {% for key, val in statuses.iteritems() %}
-            <tr><th>{{ key }}</th><td>{{ val|safe }}</td></tr>
+            <tr>
+                <th>{{ key }}</th>
+                <td>
+                    {% if key == 'Snmptrap' %}
+                    <div class="snmptrap">{{ val|safe }}</div>
+                    {% else %}
+                    {{ val|safe }}
+                    {% endif %}
+                </td>
+            </tr>
         {% endfor %}
     </table>
 {% endblock %}
