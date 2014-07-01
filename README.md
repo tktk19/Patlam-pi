@@ -1,12 +1,15 @@
 # 設置手順
 ## 物理的に設置
-1. micro-USBコネクタに電源共有
-2. スピーカーを全面のUSBポートに
+1. スピーカーをUSBポートに刺す
+2. LED用コネクタを docs/raspP1.png の [20(GND), 18, 16] に接続
+3. SDカードを刺す
+   SDカード破損の場合には 下記よりダウンロード
+   http://kouzu.info/sd/
+4. micro-USBコネクタにて電源供給
+5. 起動後にIPアドレスが音声通知されます
+6. http://[通知されたIP]/ をブラウザにて開く
 
-
-
-
-
+/usr/lib/python/site-packages の下に自前のsite-packageを読み込むようにする
 
 # RaspberryPi Linuxへの変更点
 下記は既に設定済みの内容のメモとなります
