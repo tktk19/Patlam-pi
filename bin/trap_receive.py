@@ -46,9 +46,10 @@ class Alart():
         self.log('SoundPlay End')
 
     def __light(self):
-        self.log('LED blink 5 Times Start')
+        __led_blink_count = patlam_pi.get_setting('LEDBlink')
+        self.log('LED blink ' + __led_blink_count + ' Times Start')
         i = 0
-        while i < 5:
+        while i < int(__led_blink_count):
             GPIO.output(23, True)
             GPIO.output(24, True)
             time.sleep(0.5)
@@ -56,8 +57,8 @@ class Alart():
             GPIO.output(24, False)
             time.sleep(0.5)
             i+=1
-
-        self.log('LED blink 5 Times Stop')
+            
+        self.log('LED blink Stop')
 
     def fire(self):
         self.__sound()
@@ -66,7 +67,8 @@ class Alart():
     def log(self, string):
         self.logger.debug(string)
 
-if __name__ == '__main__' :
+if __name__ == '__main__':
     alart = Alart()
     alart.log(' '.join(sys.argv))
+    patlam_pi.set_volume_fromdb()
     alart.fire()

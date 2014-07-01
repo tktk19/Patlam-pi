@@ -104,22 +104,14 @@
     pi       pts/0    192.168.1.26     00:17   19.00s  2.12s  0.47s sshd: pi [priv]
     pi       pts/1    192.168.1.26     00:18   18.00s  2.15s  0.16s w
     
-### /etc/watchdog.conf 
+### /etc/watchdog.conf
     watchdog-device = /dev/watchdog
     max-load-1              = 24
 
 ## その他
 ### /etc/rc.local  
-最下段の行のみを追加  
-    # By default this script does nothing.
-
-    # Print the IP address
-    _IP=$(hostname -I) || true
-    if [ "$_IP" ]; then
-      printf "My IP address is %s\n" "$_IP"
-    fi
-
-    /opt/aquestalkpi/AquesTalkPi "起動しました、IPアドレス ${_IP}"  | aplay
+    # init for Patlam-pi
+    /prj/Patlam-pi/bin/init.py
 
 ## アプリケーションのデーモン化  
 要 gunicorn
