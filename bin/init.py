@@ -29,7 +29,7 @@ fi
 """
     os.system(cmd)
 
-    cmd = "cd /prj/Patlam-pi && gunicorn -D -w 4 -b 0.0.0.0:80 patlam_pi:app"
+    cmd = "cd /prj/patlam-pi && gunicorn -D -w 4 -b 0.0.0.0:80 patlam_pi:app"
     os.system(cmd)
 
 def init_gpio():
