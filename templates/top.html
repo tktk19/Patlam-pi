@@ -1,26 +1,38 @@
 {% extends "layout.html" %}
 {% block body %}
-    <h2>現在の設定</h2><span>※設定変更するにはログインしてください</span>
+    <h2>現在の設定</h2>
+    {% if session.logged_in %}
+        <form method="POST" action="/settings">
+    {% endif %}
     <table>
         {% for setting in settings %}
             <tr>
                 <th>{{ setting.key }}</th>
                 <td>
+                {% if session.logged_in %}
+                    {% if setting.key == 'IPType' %}
+                        <input type="text" name="{{ setting.key }}" value="{{ setting.val|safe }}">
+                    {% else %}
+                        <input type="text" name="{{ setting.key }}" value="{{ setting.val|safe }}">
+                    {% endif %}
+                {% else %}
                     {% if setting.val == '' %}
                         -
                     {% else %}
                         {{ setting.val|safe }}
                     {% endif %}
+                {% endif %}
                 </td>
             </tr>
         {% endfor %}
     </table>
-
-    {% if session.logged_in %}
-        <input type=submit value=更新>
+    {% if not session.logged_in %}
+        <span>※設定変更するにはログインしてください</span>
     {% else %}
+        <input type="submit" value="更新">
+        </form>
     {% endif %}
-
+    <br>
     <br>
     <h3>ステータス</h3>
     <table>

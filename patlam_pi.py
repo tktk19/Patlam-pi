@@ -42,8 +42,15 @@ def get_setting(key):
         __setting = cur.fetchone()
         return __setting[0]
 
-def set_volume_fromdb():
-    cmd = "amixer -c 0 sset 'PCM' " + get_setting('SoundVolume') + "%"
+def set_setting(key, val):
+    with app.app_context():
+        db = get_db()
+        cur = db.execute("UPDATE settings SET val = '" + val + "' WHERE key = '" + key + "'")
+        __setting = cur.fetchone()
+        return __setting[0]
+
+def set_volume():
+    cmd = "amixer -c 0 sset 'PCM' " + get_setting('Volume') + "%"
     os.system(cmd)
 
 def __system(cmd):
@@ -88,6 +95,32 @@ def login():
             flash('You were logged in')
             return redirect(url_for('top'))
     return render_template('login.html', error=error)
+
+@app.route('/settings', methods=["POST"])
+def settings():
+    if request.method == 'POST':
+        try:
+            if (isinstance(int(request.form['Volume']), int)):
+                msg = "Volume must be integer"
+                raise ValueError
+
+            if (isinstance(int(request.form['LEDBlink']), int)):
+                msg = "LEDBlink must be integer"
+                raise ValueError
+
+                #db = get_db()
+                #for key, val in request.form:
+                #print key + " " + val
+
+                #cur = db.execute('select * from settings')
+                #settings = cur.fetchall()
+                #statuses = __get_system_stat()
+
+        except ValueError:
+            msg = "Volume/LEDBlink must be integer"
+            flash(msg)
+
+    return redirect(url_for('top'))
 
 @app.route('/logout')
 def logout():

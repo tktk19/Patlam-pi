@@ -2,58 +2,152 @@
     padding: 0;
     margin: 0;
     vertical-align: middle;
+    word-wrap: break-word;
+    word-break: break-all;
 }
 
-body            { font-family: sans-serif; background: #eee; line-height: 1.7; color: #383838;font-size: 16px;}
-a       { display: inline-block; padding: 4px 8px; color: #485E80; background-color: #FDFDE0; }
+body {
+    font-family: sans-serif;
+    background: #eee;
+    line-height: 1.7;
+    color: #383838;
+    font-size: 16px;
+    padding: 0.5em;
+}
+
+a {
+    display: inline-block;
+    padding: 4px 8px;
+    color: #485E80;
+    background-color: #FDFDE0;
+}
+
 a:hover {
     background-color: #FFFF99;
     text-decoration: none;
 }
 
-h1              { color:#000;font-size:110%;margin-bottom: 0.5em;}
+h1 {
+    color: #000;
+    font-size: 110%;
+    margin-bottom: 0.5em;
+}
+
+h1 a {
+    background-color: #fff;
+    text-decoration: none;
+}
+
 .logo_raspi {
     width: 40px;
 }
+
 span.title {
 
 }
-strong.pi { font-size:140%; display: inline-block;
-    border-radius: 1.5em; width: 1.5em; height: 1.5em;
-    padding: 0.2em; margin: 0 4px; text-align: center;
-    background-color:#DB457B; color: #fff; }
 
-h2,h3             { font-size: 1.2em; background-color: #BAE6E4; text-align: center;border-radius: 1.5em;padding: 8px; }
+strong.pi {
+    font-size: 140%;
+    display: inline-block;
+    border-radius: 1.5em;
+    width: 1.5em;
+    height: 1.5em;
+    padding: 0.2em;
+    margin: 0 4px;
+    text-align: center;
+    background-color: #DB457B;
+    color: #fff;
+}
 
-.page           { margin: 2em auto; border: 5px solid #ccc;
-    padding: 2em; background: white; width: 800px; border-radius: 1.5em; }
-.entries        { list-style: none; margin: 0; padding: 0; }
-.entries li     { margin: 0.8em 1.2em; }
-.entries li h2  { margin-left: -1em; }
-.add-entry      { font-size: 0.9em; border-bottom: 1px solid #ccc; }
-.add-entry dl   { font-weight: bold; }
-.metanav        { text-align: right; font-size: 0.8em; padding: 0.3em;
+h2, h3 {
+    font-size: 1.2em;
+    background-color: #BAE6E4;
+    text-align: center;
+    border-radius: 1.5em;
+    padding: 8px;
+}
+
+.page {
+    width: auto;
+    max-width: 800px;
+    margin: 0 auto;
+    border: 5px solid #ccc;
+    padding: 1em;
+    background: white;
+    border-radius: 1.5em;
+}
+
+.entries {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.entries li {
+    margin: 0.8em 1.2em;
+}
+
+.entries li h2 {
+    margin-left: -1em;
+}
+
+.add-entry {
+    font-size: 0.9em;
+    border-bottom: 1px solid #ccc;
+}
+
+.add-entry dl {
+    font-weight: bold;
+}
+
+.metanav {
+    text-align: right;
+    font-size: 0.8em;
+    padding: 0.3em;
     margin-bottom: 1em;
     border-top: 1px #ccc dotted;
 }
-.flash          { background: #cee5F5; padding: 0.5em;
-    border: 1px solid #aacbe2; }
-.error          { background: #f0d6d6; padding: 0.5em; }
-
-table { width: 100%;}
-
-th,td {
+.flash {
+    background-color: #FDFDE0;
+    border: 1px solid #ffe676;
+    border-radius: 1.5em;
+    margin-bottom: 1em;
     padding: 8px;
 }
+
+.error {
+    background: #f0d6d6;
+    padding: 0.5em;
+}
+
+table {
+    width: 100%;
+}
+
+th, td {
+    padding: 8px;
+}
+
 th {
-    width:100px;
+    width: 100px;
     background-color: #BAE6E4;
     border-radius: 1.5em;
 }
-td { width: auto;}
 
-.snmptrap { font-size: 80%; margin-bottom: 0.3ex; }
+td {
+    width: auto;
+    overflow: auto;
+}
 
+.snmptrap {
+    font-size: 80%;
+    margin-bottom: 0.3ex;
+}
+
+.snmptrap br {
+    display: block;
+    margin-bottom: 1em;
+}
 input[type="submit"] {
     display: block;
     font-size: 1.3em;
@@ -66,8 +160,50 @@ input[type="submit"] {
     border-radius: 1.5em;
     border: 2px solid #fff;
 }
+
 input[type="submit"]:hover {
     background-color: #FFD5E4;
     color: #DB457B;
     border: 2px solid #DB457B;
+}
+
+input[type="text"] {
+    width: auto;
+}
+
+form.login dl {
+    width: 250px;
+    margin: 0 auto;
+    margin-bottom: 1em;
+}
+
+form.login dl dd input {
+    display: block;
+    width: auto;
+    margin: 0 auto;
+}
+
+@media screen and (max-width: 480px) {
+    body {
+        font-size: 13px;
+    }
+
+    h2, h3 {
+        border-radius: 1em;
+        padding: 4px;
+    }
+
+    th, td {
+        padding: 4px;
+    }
+
+    th {
+        width: 60px;
+        border-radius: 1em;
+        font-size: 80%;
+    }
+    .flash {
+        border-radius: 1em;
+        padding: 4px;
+    }
 }

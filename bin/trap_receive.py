@@ -70,5 +70,5 @@ class Alart():
 if __name__ == '__main__':
     alart = Alart()
     alart.log(' '.join(sys.argv))
-    patlam_pi.set_volume_fromdb()
+    patlam_pi.set_volume()
     alart.fire()

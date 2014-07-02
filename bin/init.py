@@ -36,5 +36,5 @@ def init_gpio():
 
 if __name__ == '__main__':
     init_gpio()
-    patlam_pi.set_volume_fromdb()
+    patlam_pi.set_volume()
     report_ip()
